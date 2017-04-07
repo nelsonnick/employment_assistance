@@ -25,7 +25,6 @@ var webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
     }),
@@ -35,33 +34,23 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       sourceMap: true
     }),
-    // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
     }),
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin(),
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
-    // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      title: '移动_登录',
-      filename: '../dist/static/html/mobile/Mobile_Login.html',
+      title: '测试',
+      filename: '../dist/static/html/index.html',
       template: 'html/template.html',
       inject: true,
-      chunks: ['vendor', 'manifest', 'Mobile_Login'],
+      chunks: ['vendor', 'manifest', 'index'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
       },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
-    // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module, count) {

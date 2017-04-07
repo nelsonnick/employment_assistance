@@ -9,7 +9,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    Index: './src/Mobile/Login/Index.js'
+    index: './src/lh/index.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -24,7 +24,7 @@ module.exports = {
       'vue': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'assets': resolve('src\\assets'),
-      'muse-components': 'muse-ui/src'
+      'iview': 'iview/src/index.js'
     }
   },
   module: {
@@ -65,7 +65,7 @@ module.exports = {
         }
       },
       {
-        test: /muse-ui.src.*?js$/,
+        test: /iview.src.*?js$/,
         loader: 'babel-loader'
       }
     ]
