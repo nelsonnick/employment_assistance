@@ -3,11 +3,16 @@ package com.wts.common;
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
 import com.jfinal.ext.handler.ContextPathHandler;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByMethods;
+import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 import com.wts.controller.*;
+import com.wts.entity.model._MappingKit;
+
 /**
  * API引导式配置
  */
@@ -30,15 +35,27 @@ public class Config extends JFinalConfig {
      */
     public void configRoute(Routes me) {
         me.add("/", MainController.class);
+        me.add("/person", PersonController.class);
     }
 
     /**
      * 配置插件
      */
     public void configPlugin(Plugins me) {
-
+        // 配置C3p0数据库连接池插件
+//        C3p0Plugin c3p0Plugin = new C3p0Plugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
+//        me.add(c3p0Plugin);
+        DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
+        me.add(druidPlugin);
+        // 配置ActiveRecord插件
+        ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+        arp.setBaseSqlTemplatePath(PathKit.getRootClassPath());
+        _MappingKit.mapping(arp);
+        me.add(arp);
     }
-
+    public static DruidPlugin createDruidPlugin() {
+        return new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
+    }
     /**
      * 配置全局拦截器
      */

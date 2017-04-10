@@ -39,11 +39,24 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     new OptimizeCSSPlugin(),
     new HtmlWebpackPlugin({
-      title: '测试',
-      filename: '../dist/static/html/index.html',
+      title: '登录',
+      filename: '../dist/static/html/Login.html',
       template: 'html/template.html',
       inject: true,
-      chunks: ['vendor', 'manifest', 'index'],
+      chunks: ['vendor', 'manifest', 'login'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      },
+      chunksSortMode: 'dependency'
+    }),
+    new HtmlWebpackPlugin({
+      title: '管理',
+      filename: '../dist/static/html/Business.html',
+      template: 'html/template.html',
+      inject: true,
+      chunks: ['vendor', 'manifest', 'business'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,

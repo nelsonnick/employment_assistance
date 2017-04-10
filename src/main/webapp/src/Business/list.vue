@@ -45,7 +45,7 @@
       </Row>
       <Row>
         <Col>
-          <Table height="200" highlight-row :context="self" :columns="columns" :data="data"></Table>
+          <Table height="200" highlight-row :context="self" :columns="columns" :data="list"></Table>
         </Col>
       </Row>
       <br>
@@ -99,29 +99,11 @@
             }
           }
         ],
-        data: [
-          {
-            id: '111',
-            name: '王小明',
-            number: '370104195601012365',
-            category: '灵活就业人员',
-            location: '西市场',
-            type: '城镇零就业家庭的4050失业人员'
-          },
-          {
-            id: '222',
-            name: '张小虎',
-            number: '370103195711012987',
-            category: '企业吸纳',
-            location: '五里沟',
-            type: '城镇登记失业的成年孤儿'
-          }
-        ],
         queryName: '',
         queryNumber: '',
         queryCategory: '',
         pageTotal: '',
-        pageSize: '',
+        pageSize: '10',
         pageCurrent: '',
         list: []
       }
@@ -191,13 +173,9 @@
       },
       sizeChange (value) {
         this.pageSize = value
-        this.query(this.queryName, this.queryNumber, this.queryCategory, this.pageCurrent, this.pageSize)
-        this.total(this.queryName, this.queryNumber, this.queryCategory)
       },
       pageChange (value) {
         this.pageCurrent = value
-        this.query(this.queryName, this.queryNumber, this.queryCategory, this.pageCurrent, this.pageSize)
-        this.total(this.queryName, this.queryNumber, this.queryCategory)
       },
       goEdit (id) {
         this.$router.push({ path: '/edit/' + id })

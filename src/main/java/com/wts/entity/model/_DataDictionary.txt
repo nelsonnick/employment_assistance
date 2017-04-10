@@ -1,0 +1,116 @@
+Table: category
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ describe | VARCHAR(255) | YES  |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: location
+-------+--------------+------+-----+---------+---------
+ Field | Type         | Null | Key | Default | Remarks 
+-------+--------------+------+-----+---------+---------
+ id    | INT(10)      | NO   | PRI |         |         
+ name  | VARCHAR(255) | YES  |     |         |         
+-------+--------------+------+-----+---------+---------
+
+Table: operate
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         |         
+ user_id   | INT(10)      | YES  |     |         |         
+ person_id | INT(10)      | YES  |     |         |         
+ time      | DATETIME(19) | YES  |     |         |         
+ type      | INT(10)      | YES  |     |         | 1新增2修改3删除
+-----------+--------------+------+-----+---------+---------
+
+Table: person
+--------------------+--------------+------+-----+---------+---------
+ Field              | Type         | Null | Key | Default | Remarks 
+--------------------+--------------+------+-----+---------+---------
+ id                 | INT(10)      | NO   | PRI |         |         
+ person_category    | INT(10)      | YES  |     |         |         
+ person_type        | INT(10)      | YES  |     |         |         
+ person_state       | INT(10)      | YES  |     |         |         
+ person_name        | VARCHAR(255) | YES  |     |         |         
+ person_number      | VARCHAR(255) | YES  |     |         |         
+ person_phone       | VARCHAR(255) | YES  |     |         |         
+ person_address     | VARCHAR(255) | YES  |     |         |         
+ person_company     | VARCHAR(255) | YES  |     |         |         
+ person_timeA       | DATETIME(19) | YES  |     |         |         
+ person_timeB       | DATETIME(19) | YES  |     |         |         
+ person_job         | INT(10)      | YES  |     |         |         
+ person_disability  | VARCHAR(255) | YES  |     |         |         
+ person_security    | VARCHAR(255) | YES  |     |         |         
+ person_remark      | VARCHAR(255) | YES  |     |         |         
+ person_childNum    | INT(10)      | YES  |     |         |         
+ person_remainMonth | INT(10)      | YES  |     |         |         
+ spouse_state       | INT(10)      | YES  |     |         |         
+ spouse_name        | VARCHAR(255) | YES  |     |         |         
+ spouse_number      | VARCHAR(255) | YES  |     |         |         
+ spouse_company     | VARCHAR(255) | YES  |     |         |         
+ spouse_time        | DATETIME(19) | YES  |     |         |         
+ spouse_remark      | VARCHAR(255) | YES  |     |         |         
+ child1_state       | INT(10)      | YES  |     |         |         
+ child1_name        | VARCHAR(255) | YES  |     |         |         
+ child1_number      | VARCHAR(255) | YES  |     |         |         
+ child1_company     | VARCHAR(255) | YES  |     |         |         
+ child1_time        | DATETIME(19) | YES  |     |         |         
+ child1_remark      | VARCHAR(255) | YES  |     |         |         
+ child2_state       | INT(10)      | YES  |     |         |         
+ child2_name        | VARCHAR(255) | YES  |     |         |         
+ child2_number      | VARCHAR(255) | YES  |     |         |         
+ child2_company     | VARCHAR(255) | YES  |     |         |         
+ child2_time        | DATETIME(19) | YES  |     |         |         
+ child2_remark      | VARCHAR(255) | YES  |     |         |         
+ child3_state       | INT(10)      | YES  |     |         |         
+ child3_name        | VARCHAR(255) | YES  |     |         |         
+ child3_number      | VARCHAR(255) | YES  |     |         |         
+ child3_company     | VARCHAR(255) | YES  |     |         |         
+ child3_time        | DATETIME(19) | YES  |     |         |         
+ child3_remark      | VARCHAR(255) | YES  |     |         |         
+ child4_state       | INT(10)      | YES  |     |         |         
+ child4_name        | VARCHAR(255) | YES  |     |         |         
+ child4_number      | VARCHAR(255) | YES  |     |         |         
+ child4_company     | VARCHAR(255) | YES  |     |         |         
+ child4_time        | DATETIME(19) | YES  |     |         |         
+ child4_remark      | VARCHAR(255) | YES  |     |         |         
+ child5_state       | INT(10)      | YES  |     |         |         
+ child5_name        | VARCHAR(255) | YES  |     |         |         
+ child5_number      | VARCHAR(255) | YES  |     |         |         
+ child5_company     | VARCHAR(255) | YES  |     |         |         
+ child5_time        | DATETIME(19) | YES  |     |         |         
+ child5_remark      | VARCHAR(255) | YES  |     |         |         
+ location_id        | INT(10)      | YES  |     |         |         
+ state              | INT(10)      | YES  |     |         |         
+--------------------+--------------+------+-----+---------+---------
+
+Table: state
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ describe | VARCHAR(255) | YES  |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: type
+----------+--------------+------+-----+---------+---------
+ Field    | Type         | Null | Key | Default | Remarks 
+----------+--------------+------+-----+---------+---------
+ id       | INT(10)      | NO   | PRI |         |         
+ describe | VARCHAR(255) | YES  |     |         |         
+----------+--------------+------+-----+---------+---------
+
+Table: user
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | INT(10)      | NO   | PRI |         |         
+ name        | VARCHAR(255) | YES  |     |         |         
+ state       | INT(10)      | YES  |     |         |         
+ pass        | VARCHAR(255) | YES  |     |         |         
+ login       | VARCHAR(255) | YES  |     |         |         
+ location_id | INT(10)      | YES  |     |         |         
+-------------+--------------+------+-----+---------+---------
+

@@ -39,7 +39,7 @@
         </Form-item>
         <Form-item label="家庭成员" required>
           <Button shape="circle" type="info"  @click="person.modal = true">{{person.name === '' ? '申请人' : person.name}}</Button>
-          <Button shape="circle" type="success" v-if="person.type === '1' && person.marriage === '2'" @click="spouse.modal = true">{{spouse.name === '' ? '配偶' : spouse.name}}</Button>
+          <Button shape="circle" type="success" v-if="person.type === '1' && person.state === '2'" @click="spouse.modal = true">{{spouse.name === '' ? '配偶' : spouse.name}}</Button>
           <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="child1.modal = true">{{child1.name === '' ? '子女1' : child1.name}}</Button>
           <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="child2.modal = true">{{child2.name === '' ? '子女2' : child2.name}}</Button>
           <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="child3.modal = true">{{child3.name === '' ? '子女3' : child3.name}}</Button>
@@ -58,98 +58,93 @@
           <Tag color="blue" v-if="person.type === '5'">{{person.name === '' ? '本人' : person.name}}-《毕业证》复印件一份</Tag>
           <Tag color="blue" v-if="person.type === '5'">{{person.name === '' ? '本人' : person.name}}-《报到证》复印件一份</Tag>
           <Tag color="blue" v-if="person.type === '6'">{{person.name === '' ? '本人' : person.name}}-县级以上民政部门认定的孤儿证明复印件一份</Tag>
-          <Tag color="blue" v-if="person.marriage === '1'">{{person.name === '' ? '本人' : person.name}}-单身证明</Tag>
-          <Tag color="green" v-if="person.type === '1' && person.marriage === '2'">{{spouse.name === '' ? '配偶' : spouse.name}}-身份证复印件一份</Tag>
-          <Tag color="green" v-if="person.type === '1' && person.marriage === '2'">{{spouse.name === '' ? '配偶' : spouse.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="green" v-if="person.type === '1' && person.marriage === '2' && spouse.state === '1'">{{spouse.name === '' ? '配偶' : spouse.name}}-城镇登记失业证明一份</Tag>
-          <Tag color="green" v-if="person.type === '1' && person.marriage === '2' && spouse.state === '2'">{{spouse.name === '' ? '配偶' : spouse.name}}-退休证复印件一份</Tag>
-          <Tag color="green" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.marriage === '3'">{{person.name === '' ? '本人' : person.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
-          <Tag color="green" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.marriage === '4'">{{spouse.name === '' ? '配偶' : spouse.name}}-死亡证明一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.marriage === '1' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-抚养证明</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '1' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '1' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '1' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-在校证明</Tag>
+          <Tag color="blue" v-if="person.state === '1'">{{person.name === '' ? '本人' : person.name}}-单身证明</Tag>
+          <Tag color="green" v-if="person.type === '1' && person.state === '2'">{{spouse.name === '' ? '配偶' : spouse.name}}-身份证复印件一份</Tag>
+          <Tag color="green" v-if="person.type === '1' && person.state === '2'">{{spouse.name === '' ? '配偶' : spouse.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="green" v-if="person.type === '1' && person.state === '2' && spouse.state === '6'">{{spouse.name === '' ? '配偶' : spouse.name}}-城镇登记失业证明一份</Tag>
+          <Tag color="green" v-if="person.type === '1' && person.state === '2' && spouse.state === '7'">{{spouse.name === '' ? '配偶' : spouse.name}}-退休证复印件一份</Tag>
+          <Tag color="green" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.state === '3'">{{person.name === '' ? '本人' : person.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
+          <Tag color="green" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.state === '4'">{{spouse.name === '' ? '配偶' : spouse.name}}-死亡证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.state === '1' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-抚养证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '5' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '5' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '5' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-在校证明</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '2' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '2' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '2' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-结婚证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '1' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '1' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '1' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-城镇登记失业证明一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '3' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '3' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '3' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-城镇登记失业证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '3' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '4' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '4' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '4' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '5' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '5' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '5' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-配偶死亡证明一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.marriage === '1' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-抚养证明</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '1' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '1' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '1' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-在校证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child1.state === '4' && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child1.name === '' ? '子女一' : child1.name}}-配偶死亡证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.state === '1' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-抚养证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '5' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '5' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '5' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-在校证明</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '2' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '2' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '2' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-结婚证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '1' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '1' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '1' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-城镇登记失业证明一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '3' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '3' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '3' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-城镇登记失业证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '3' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '4' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '4' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '4' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '5' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '5' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '5' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-配偶死亡证明一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.marriage === '1' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-抚养证明</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '1' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '1' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '1' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-在校证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child2.state === '4' && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child2.name === '' ? '子女二' : child2.name}}-配偶死亡证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.state === '1' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-抚养证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '5' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '5' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '5' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-在校证明</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '2' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '2' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '2' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-结婚证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '1' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '1' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '1' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-城镇登记失业证明一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '3' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '3' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '3' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-城镇登记失业证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '3' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '4' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '4' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '4' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '5' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '5' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '5' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-配偶死亡证明一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.marriage === '1' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-抚养证明</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '1' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '1' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '1' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-在校证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child3.state === '4' && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)">{{child3.name === '' ? '子女三' : child3.name}}-配偶死亡证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.state === '1' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-抚养证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '5' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '5' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '5' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-在校证明</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '2' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '2' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '2' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-结婚证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '1' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '1' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '1' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-城镇登记失业证明一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '3' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '3' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '3' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-城镇登记失业证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '3' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '4' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '4' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '4' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '5' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '5' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '5' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-配偶死亡证明一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.marriage === '1' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-抚养证明</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '1' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '1' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '1' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-在校证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child4.state === '4' && (person.childNum == 4 || person.childNum == 5)">{{child4.name === '' ? '子女四' : child4.name}}-配偶死亡证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.state === '1' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-抚养证明</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '5' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '5' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '5' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-在校证明</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '2' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '2' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '2' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-结婚证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '1' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-身份证复印件一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '1' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '1' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-城镇登记失业证明一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '3' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '3' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '3' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-城镇登记失业证明一份</Tag>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '3' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '4' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-身份证复印件一份</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '4' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '4' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-离婚证复印件一份或离婚协议书复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '5' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-身份证复印件一份</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '5' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
-          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '5' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-配偶死亡证明一份</Tag>
-        </Form-item>
-        <Form-item>
-          <Button type="error" @click="gorReply">关闭</Button>
-          <Button type="info" @click="resetPerson">重置</Button>
-          <Button type="success" @click="goSave">保存</Button>
+          <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '4' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-配偶死亡证明一份</Tag>
         </Form-item>
       </Form>
     </div>
@@ -209,7 +204,7 @@
         <Row v-if="person.type === '1' || person.type === '2'">
           <Col span="12">
           <Form-item label="婚姻状况"  required>
-            <Radio-group v-model="person.marriage" type="button">
+            <Radio-group v-model="person.state" type="button">
               <Radio label="1" v-if="person.type === '1' || person.type === '2'">未婚</Radio>
               <Radio label="2" v-if="person.type === '1'">已婚</Radio>
               <Radio label="3" v-if="person.type === '1' || person.type === '2'">离异</Radio>
@@ -270,8 +265,8 @@
       <Form :model="spouse" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
           <Radio-group v-model="spouse.state" type="button">
-            <Radio label="1">未退休</Radio>
-            <Radio label="2">已退休</Radio>
+            <Radio label="6">未退休</Radio>
+            <Radio label="7">已退休</Radio>
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
@@ -300,11 +295,11 @@
       <Form :model="child1" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
           <Radio-group v-model="child1.state" type="button">
-            <Radio label="1">在校学生</Radio>
-            <Radio label="2">已结婚</Radio>
-            <Radio label="3">未婚</Radio>
-            <Radio label="4">离异</Radio>
-            <Radio label="5">丧偶</Radio>
+            <Radio label="1">已婚</Radio>
+            <Radio label="2">未婚</Radio>
+            <Radio label="3">离异</Radio>
+            <Radio label="4">丧偶</Radio>
+            <Radio label="5">在校学生</Radio>
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
@@ -333,11 +328,11 @@
       <Form :model="child2" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
           <Radio-group v-model="child2.state" type="button">
-            <Radio label="1">在校学生</Radio>
-            <Radio label="2">已结婚</Radio>
-            <Radio label="3">未婚</Radio>
-            <Radio label="4">离异</Radio>
-            <Radio label="5">丧偶</Radio>
+            <Radio label="1">已婚</Radio>
+            <Radio label="2">未婚</Radio>
+            <Radio label="3">离异</Radio>
+            <Radio label="4">丧偶</Radio>
+            <Radio label="5">在校学生</Radio>
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
@@ -366,11 +361,11 @@
       <Form :model="child3" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
           <Radio-group v-model="child3.state" type="button">
-            <Radio label="1">在校学生</Radio>
-            <Radio label="2">已结婚</Radio>
-            <Radio label="3">未婚</Radio>
-            <Radio label="4">离异</Radio>
-            <Radio label="5">丧偶</Radio>
+            <Radio label="1">已婚</Radio>
+            <Radio label="2">未婚</Radio>
+            <Radio label="3">离异</Radio>
+            <Radio label="4">丧偶</Radio>
+            <Radio label="5">在校学生</Radio>
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
@@ -399,11 +394,11 @@
       <Form :model="child4" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
           <Radio-group v-model="child4.state" type="button">
-            <Radio label="1">在校学生</Radio>
-            <Radio label="2">已结婚</Radio>
-            <Radio label="3">未婚</Radio>
-            <Radio label="4">离异</Radio>
-            <Radio label="5">丧偶</Radio>
+            <Radio label="1">已婚</Radio>
+            <Radio label="2">未婚</Radio>
+            <Radio label="3">离异</Radio>
+            <Radio label="4">丧偶</Radio>
+            <Radio label="5">在校学生</Radio>
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
@@ -432,11 +427,11 @@
       <Form :model="child5" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
           <Radio-group v-model="child5.state" type="button">
-            <Radio label="1">在校学生</Radio>
-            <Radio label="2">已结婚</Radio>
-            <Radio label="3">未婚</Radio>
-            <Radio label="4">离异</Radio>
-            <Radio label="5">丧偶</Radio>
+            <Radio label="1">已婚</Radio>
+            <Radio label="2">未婚</Radio>
+            <Radio label="3">离异</Radio>
+            <Radio label="4">丧偶</Radio>
+            <Radio label="5">在校学生</Radio>
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
@@ -466,7 +461,7 @@
 <script>
   import * as API from './API.js'
   export default {
-    name: 'add',
+    name: 'edit',
     data () {
       const IDNumberCheck = (rule, value, callback) => {
         if (!value || !/^\d{17}(\d|X)$/i.test(value)) {
@@ -542,7 +537,7 @@
         person: {
           category: '1',
           type: '1',
-          marriage: '1',
+          state: '1',
           modal: false,
           name: '',
           number: '',
@@ -611,13 +606,11 @@
           company: '',
           time: '',
           remark: ''
+
         }
       }
     },
     methods: {
-      gorReply () {
-        this.$router.push({ path: '/list' })
-      },
       resetPerson () {
         this.person.name = ''
         this.person.number = ''
@@ -627,7 +620,7 @@
         this.person.timeA = ''
         this.person.timeB = ''
         this.person.job = '1'
-        this.person.marriage = '1'
+        this.person.state = '1'
         this.person.remark = ''
         this.resetSpouse()
         this.resetChild1()
@@ -686,7 +679,7 @@
       },
       goSave () {
         this.$http.get(
-          API.save,
+          API.edit,
           { params: {
             person: this.person,
             spouse: this.spouse,
@@ -717,6 +710,22 @@
           this.$Notice.error({
             title: '服务器内部错误!'
           })
+        })
+      },
+      fetchData (id) {
+        this.$http.get(
+          API.get,
+          { params: { id: id } },
+          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+        ).then((response) => {
+          this.person = response.body.person
+          this.spouse = response.body.spouse
+          this.child1 = response.body.child1
+          this.child2 = response.body.child2
+          this.child3 = response.body.child3
+          this.child4 = response.body.child4
+          this.child5 = response.body.child5
+        }, (response) => {
         })
       }
     }
