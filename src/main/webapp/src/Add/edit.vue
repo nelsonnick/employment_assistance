@@ -146,11 +146,6 @@
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '5' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-户口本复印件一份（户主页、索引页、个人单页）</Tag>
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '5' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-配偶死亡证明一份</Tag>
         </Form-item>
-        <Form-item>
-          <Button type="error" @click="gorReply">关闭</Button>
-          <Button type="info" @click="resetPerson">重置</Button>
-          <Button type="success" @click="goSave">保存</Button>
-        </Form-item>
       </Form>
     </div>
     <div class="layout-copy">
@@ -466,7 +461,7 @@
 <script>
   import * as API from './API.js'
   export default {
-    name: 'add',
+    name: 'edit',
     data () {
       const IDNumberCheck = (rule, value, callback) => {
         if (!value || !/^\d{17}(\d|X)$/i.test(value)) {
@@ -611,13 +606,11 @@
           company: '',
           time: '',
           remark: ''
+
         }
       }
     },
     methods: {
-      gorReply () {
-        this.$router.push({ path: '/list' })
-      },
       resetPerson () {
         this.person.name = ''
         this.person.number = ''
@@ -686,7 +679,7 @@
       },
       goSave () {
         this.$http.get(
-          API.save,
+          API.edit,
           { params: {
             person: this.person,
             spouse: this.spouse,
@@ -717,6 +710,22 @@
           this.$Notice.error({
             title: '服务器内部错误!'
           })
+        })
+      },
+      fetchData (id) {
+        this.$http.get(
+          API.get,
+          { params: { id: id } },
+          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+        ).then((response) => {
+          this.person = response.body.person
+          this.spouse = response.body.spouse
+          this.child1 = response.body.child1
+          this.child2 = response.body.child2
+          this.child3 = response.body.child3
+          this.child4 = response.body.child4
+          this.child5 = response.body.child5
+        }, (response) => {
         })
       }
     }
