@@ -610,6 +610,18 @@
         }
       }
     },
+    watch: {
+      person.state: function (val) {
+        this.resetSpouse()
+      },
+      person.childMun: function (val) {
+        this.resetChild1()
+        this.resetChild2()
+        this.resetChild3()
+        this.resetChild4()
+        this.resetChild5()
+      }
+    },
     methods: {
       resetPerson () {
         this.person.name = ''
@@ -619,8 +631,8 @@
         this.person.company = ''
         this.person.timeA = ''
         this.person.timeB = ''
-        this.person.job = '1'
-        this.person.state = '1'
+        this.person.job = ''
+        this.person.state = ''
         this.person.remark = ''
         this.resetSpouse()
         this.resetChild1()

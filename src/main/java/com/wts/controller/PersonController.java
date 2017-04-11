@@ -122,6 +122,7 @@ public class PersonController extends Controller {
                     .set("child5_state", getPara("child5[state]"))
                     .set("child5_remark", getPara("child5[remark]"))
                     .set("location_id", ((User) getSessionAttr("user")).getLocationId())
+                    .set("state",1)
                     .save();
             Operate operate = new Operate();
             operate.set("person_id", person.getId())
@@ -131,5 +132,80 @@ public class PersonController extends Controller {
                     .save();
             renderText("OK");
         }
+    }
+    @Before({Tx.class, Ajax.class})
+    public void delete() {
+        Person person = Person.dao.findById(getPara("id"));
+        person.set("state",2).update();
+        Operate operate = new Operate();
+        operate.set("person_id", person.getId())
+                .set("type", "1")
+                .set("time", new Date())
+                .set("user_id", ((User) getSessionAttr("user")).getId())
+                .save();
+        renderText("OK");
+    }
+    @Before({Tx.class, Ajax.class})
+    public void edit() {
+        Person person = Person.dao.findById(getPara("id"));
+        person.set("person_name", getPara("person[name]"))
+                .set("person_number", getPara("person[number]"))
+                .set("person_phone", getPara("person[phone]"))
+                .set("person_address", getPara("person[address]"))
+                .set("person_company", getPara("person[company]"))
+                .set("person_timeA", getPara("person[timeA]"))
+                .set("person_timeB", getPara("person[timeB]"))
+                .set("person_job", getPara("person[job]"))
+                .set("person_state", getPara("person[state]"))
+                .set("person_security", getPara("person[security]"))
+                .set("person_disability", getPara("person[disability]"))
+                .set("person_childNum", getPara("person[childNum]"))
+                .set("person_remainMonth", getPara("person[remainMonth]"))
+                .set("person_remark", getPara("person[remark]"))
+                .set("spouse_name", getPara("spouse[name]"))
+                .set("spouse_number", getPara("spouse[number]"))
+                .set("spouse_company", getPara("spouse[company]"))
+                .set("spouse_time", getPara("spouse[time]"))
+                .set("spouse_state", getPara("spouse[state]"))
+                .set("spouse_remark", getPara("spouse[remark]"))
+                .set("child1_name", getPara("child1[name]"))
+                .set("child1_number", getPara("child1[number]"))
+                .set("child1_company", getPara("child1[company]"))
+                .set("child1_time", getPara("child1[time]"))
+                .set("child1_state", getPara("child1[state]"))
+                .set("child1_remark", getPara("child1[remark]"))
+                .set("child2_name", getPara("child2[name]"))
+                .set("child2_number", getPara("child2[number]"))
+                .set("child2_company", getPara("child2[company]"))
+                .set("child2_time", getPara("child2[time]"))
+                .set("child2_state", getPara("child2[state]"))
+                .set("child2_remark", getPara("child2[remark]"))
+                .set("child3_name", getPara("child3[name]"))
+                .set("child3_number", getPara("child3[number]"))
+                .set("child3_company", getPara("child3[company]"))
+                .set("child3_time", getPara("child3[time]"))
+                .set("child3_state", getPara("child3[state]"))
+                .set("child3_remark", getPara("child3[remark]"))
+                .set("child4_name", getPara("child4[name]"))
+                .set("child4_number", getPara("child4[number]"))
+                .set("child4_company", getPara("child4[company]"))
+                .set("child4_time", getPara("child4[time]"))
+                .set("child4_state", getPara("child4[state]"))
+                .set("child4_remark", getPara("child4[remark]"))
+                .set("child5_name", getPara("child5[name]"))
+                .set("child5_number", getPara("child5[number]"))
+                .set("child5_company", getPara("child5[company]"))
+                .set("child5_time", getPara("child5[time]"))
+                .set("child5_state", getPara("child5[state]"))
+                .set("child5_remark", getPara("child5[remark]"))
+                .set("location_id", ((User) getSessionAttr("user")).getLocationId())
+                .update();
+        Operate operate = new Operate();
+        operate.set("person_id", person.getId())
+                .set("type", "3")
+                .set("time", new Date())
+                .set("user_id", ((User) getSessionAttr("user")).getId())
+                .save();
+        renderText("OK");
     }
 }

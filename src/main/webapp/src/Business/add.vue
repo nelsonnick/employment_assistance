@@ -204,7 +204,7 @@
         <Row v-if="person.type === '1' || person.type === '2' || person.type === '8'">
           <Col span="12">
           <Form-item label="婚姻状况"  required>
-            <Radio-group v-model="person.state" type="button">
+            <Radio-group v-model="state" type="button">
               <Radio label="1" v-if="person.type === '1' || person.type === '2' || person.type === '8'">未婚</Radio>
               <Radio label="2" v-if="person.type === '1'">已婚</Radio>
               <Radio label="3" v-if="person.type === '1' || person.type === '2' || person.type === '8'">离异</Radio>
@@ -214,7 +214,7 @@
           </Col>
           <Col span="12">
           <Form-item label="子女数量" required>
-            <Slider v-model="person.childNum" max="5" show-stops show-tip show-input></Slider>
+            <Slider v-model="childNum" max="5" show-stops show-tip show-input></Slider>
           </Form-item>
           </Col>
         </Row>
@@ -530,6 +530,8 @@
             { required: true, message: '请选择状态', trigger: 'change' }
           ]
         },
+        childNum: 0,
+        state: '',
         person: {
           category: '1',
           type: '1',
@@ -605,6 +607,18 @@
         }
       }
     },
+    watch: {
+      person.state: function (val) {
+        this.resetSpouse()
+      },
+      person.childMun: function (val) {
+        this.resetChild1()
+        this.resetChild2()
+        this.resetChild3()
+        this.resetChild4()
+        this.resetChild5()
+      }
+    },
     methods: {
       gorReply () {
         this.$router.push({ path: '/list' })
@@ -648,14 +662,20 @@
             title: '有部分信息未填写!'
           })
         } else {
+          if (this.person.childNum.toString() !== this.childNum.toString()){
+            this.person.childNum = this.childNum
+          }
+          if (this.person.state.toString() !== this.state.toString()){
+            this.person.state = this.state
+          }
           this.person.modal = false
         }
       },
       checkSpouse () {
         if (this.spouse.name === ''
           || this.spouse.number === ''
-          || this.person.time === ''
-          || this.person.state === ''
+          || this.spouse.time === ''
+          || this.spouse.state === ''
           || this.spouse.company === ''
         ){
           this.$Notice.error({
@@ -804,6 +824,13 @@
         this.child5.company = ''
         this.child5.time = ''
         this.child5.remark = ''
+      },
+      childNumChange () {
+        this.resetChild1()
+        this.resetChild2()
+        this.resetChild3()
+        this.resetChild4()
+        this.resetChild5()
       },
       goSave () {
         this.$http.get(
