@@ -1,12 +1,7 @@
 <template>
   <div class="layout">
     <Menu mode="horizontal" theme="dark" active-name="1">
-      <div class="layout-logo"></div>
       <div class="layout-nav">
-        <Menu-item name="1">
-          <Icon type="ios-navigate"></Icon>
-          列表
-        </Menu-item>
         <Menu-item name="3">
           <Icon type="ios-analytics"></Icon>
           退出
@@ -147,9 +142,9 @@
           <Tag color="yellow" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && child5.state === '4' && person.childNum == 5">{{child5.name === '' ? '子女五' : child5.name}}-配偶死亡证明一份</Tag>
         </Form-item>
         <Form-item>
-          <Button type="error" @click="gorReply">关闭</Button>
-          <Button type="info" @click="resetPerson">重置</Button>
-          <Button type="success" @click="goSave">保存</Button>
+          <Button type="error" @click="gorReply">返回列表</Button>
+          <Button type="info" @click="resetPerson">重置信息</Button>
+          <Button type="success" @click="goSave">确认新增</Button>
         </Form-item>
       </Form>
     </div>
@@ -206,14 +201,14 @@
           </Form-item>
           </Col>
         </Row>
-        <Row v-if="person.type === '1' || person.type === '2'">
+        <Row v-if="person.type === '1' || person.type === '2' || person.type === '8'">
           <Col span="12">
           <Form-item label="婚姻状况"  required>
             <Radio-group v-model="person.state" type="button">
-              <Radio label="1" v-if="person.type === '1' || person.type === '2'">未婚</Radio>
+              <Radio label="1" v-if="person.type === '1' || person.type === '2' || person.type === '8'">未婚</Radio>
               <Radio label="2" v-if="person.type === '1'">已婚</Radio>
-              <Radio label="3" v-if="person.type === '1' || person.type === '2'">离异</Radio>
-              <Radio label="4" v-if="person.type === '1' || person.type === '2'">丧偶</Radio>
+              <Radio label="3" v-if="person.type === '1' || person.type === '2' || person.type === '8'">离异</Radio>
+              <Radio label="4" v-if="person.type === '1' || person.type === '2' || person.type === '8'">丧偶</Radio>
             </Radio-group>
           </Form-item>
           </Col>
@@ -263,7 +258,7 @@
       <div slot="footer">
         <Button type="error" @click="person.modal = false">关闭</Button>
         <Button type="info" @click="resetPerson">重置</Button>
-        <Button type="success" @click="person.modal = false">保存</Button>
+        <Button type="success" @click="checkPerson">保存</Button>
       </div>
     </Modal>
     <Modal v-model="spouse.modal" title="配偶的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
@@ -293,7 +288,7 @@
       <div slot="footer">
         <Button type="error" @click="spouse.modal = false">关闭</Button>
         <Button type="info" @click="resetSpouse">重置</Button>
-        <Button type="success" @click="spouse.modal = false">保存</Button>
+        <Button type="success" @click=checkSpouse">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child1.modal" title="子女1的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
@@ -326,7 +321,7 @@
       <div slot="footer">
         <Button type="error" @click="child1.modal = false">关闭</Button>
         <Button type="info" @click="resetChild1">重置</Button>
-        <Button type="success" @click="child1.modal = false">保存</Button>
+        <Button type="success" @click="checkChild1">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child2.modal" title="子女2的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
@@ -359,7 +354,7 @@
       <div slot="footer">
         <Button type="error" @click="child2.modal = false">关闭</Button>
         <Button type="info" @click="resetChild2">重置</Button>
-        <Button type="success" @click="child2.modal = false">保存</Button>
+        <Button type="success" @click="checkChild2">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child3.modal" title="子女3的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
@@ -392,7 +387,7 @@
       <div slot="footer">
         <Button type="error" @click="child3.modal = false">关闭</Button>
         <Button type="info" @click="resetChild3">重置</Button>
-        <Button type="success" @click="child3.modal = false">保存</Button>
+        <Button type="success" @click="checkChild3">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child4.modal" title="子女4的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
@@ -425,7 +420,7 @@
       <div slot="footer">
         <Button type="error" @click="child4.modal = false">关闭</Button>
         <Button type="info" @click="resetChild4">重置</Button>
-        <Button type="success" @click="child4.modal = false">保存</Button>
+        <Button type="success" @click="checkChild4">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child5.modal" title="子女5的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
@@ -458,7 +453,7 @@
       <div slot="footer">
         <Button type="error" @click="child5.modal = false">关闭</Button>
         <Button type="info" @click="resetChild5">重置</Button>
-        <Button type="success" @click="child5.modal = false">保存</Button>
+        <Button type="success" @click="checkChild5">保存</Button>
       </div>
     </Modal>
   </div>
@@ -491,9 +486,7 @@
       return {
         person_validate: {
           name: [
-            { required: true, message: '姓名不能为空', trigger: 'change' },
-            { max: 6, message: '姓名不能多于6个字符', trigger: 'change' },
-            { min: 2, message: '姓名不能少于2个字符', trigger: 'change' }
+            { required: true, message: '姓名应为2到6个汉字', trigger: 'change', pattern: /^[\u4e00-\u9fa5]{2,6}$/ }
           ],
           number: [
             { required: true, message: '证件号码不能为空', trigger: 'change' },
@@ -501,7 +494,7 @@
           ],
           phone: [
             { required: true, message: '联系电话不能为空', trigger: 'change' },
-            { message: '请输入11位手机号码', trigger: 'change', pattern: /^\d{11}$/ }
+            { message: '请输入11位手机号码', trigger: 'change', pattern: /^1(3|4|5|7|8)\d{9}$/ }
           ],
           address: [
             { required: true, message: '联系地址不能为空', trigger: 'change' },
@@ -520,9 +513,7 @@
         },
         family_validate: {
           name: [
-            { required: true, message: '姓名不能为空', trigger: 'change' },
-            { max: 6, message: '姓名不能多于6个字符', trigger: 'change' },
-            { min: 2, message: '姓名不能少于2个字符', trigger: 'change' }
+            { required: true, message: '姓名应为2到6个汉字', trigger: 'change', pattern: /^[\u4e00-\u9fa5]{2,6}$/ }
           ],
           number: [
             { required: true, message: '证件号码不能为空', trigger: 'change' },
@@ -542,7 +533,7 @@
         person: {
           category: '1',
           type: '1',
-          state: '1',
+          state: '',
           modal: false,
           name: '',
           number: '',
@@ -551,7 +542,7 @@
           company: '',
           timeA: '',
           timeB: '',
-          job: '1',
+          job: '',
           disability: '',
           security: '',
           remark: '',
@@ -618,6 +609,132 @@
       gorReply () {
         this.$router.push({ path: '/list' })
       },
+      checkPerson () {
+        if (this.person.name === ''
+          || this.person.number === ''
+          || this.person.phone === ''
+          || this.person.address === ''
+          || this.person.company === ''
+          || this.person.timeA === ''
+          || this.person.timeB === ''
+          || this.person.job === ''
+          || this.person.state === ''
+          || (this.person.type === '4' && this.person.disability === '')
+          || (this.person.type === '10' && this.person.disability === '')
+          || (this.person.type === '3' && this.person.security === '')
+          || (this.person.type === '9' && this.person.security === '')
+          || (this.person.type === '1' && this.person.state === '')
+          || (this.person.type === '1' && this.person.job === '')
+          || (this.person.type === '2' && this.person.state === '')
+          || (this.person.type === '2' && this.person.job === '')
+          || (this.person.type === '3' && this.person.state !== '')
+          || (this.person.type === '3' && this.person.job === '')
+          || (this.person.type === '4' && this.person.state !== '')
+          || (this.person.type === '4' && this.person.job === '')
+          || (this.person.type === '5' && this.person.state !== '')
+          || (this.person.type === '5' && this.person.job === '')
+          || (this.person.type === '6' && this.person.state !== '')
+          || (this.person.type === '6' && this.person.job === '')
+          || (this.person.type === '7' && this.person.state !== '')
+          || (this.person.type === '7' && this.person.job !== '')
+          || (this.person.type === '8' && this.person.state === '')
+          || (this.person.type === '8' && this.person.job === '')
+          || (this.person.type === '9' && this.person.state !== '')
+          || (this.person.type === '9' && this.person.job !== '')
+          || (this.person.type === '10' && this.person.state !== '')
+          || (this.person.type === '10' && this.person.job !== '')
+        ){
+          this.$Notice.error({
+            title: '有部分信息未填写!'
+          })
+        } else {
+          this.person.modal = false
+        }
+      },
+      checkSpouse () {
+        if (this.spouse.name === ''
+          || this.spouse.number === ''
+          || this.person.time === ''
+          || this.person.state === ''
+          || this.spouse.company === ''
+        ){
+          this.$Notice.error({
+            title: '有部分信息未填写!'
+          })
+        } else {
+          this.spouse.modal = false
+        }
+      },
+      checkChild1 () {
+        if (this.child1.name === ''
+          || this.child1.number === ''
+          || this.child1.time === ''
+          || this.child1.state === ''
+          || this.child1.company === ''
+        ){
+          this.$Notice.error({
+            title: '有部分信息未填写!'
+          })
+        } else {
+          this.child1.modal = false
+        }
+      },
+      checkChild2 () {
+        if (this.child2.name === ''
+          || this.child2.number === ''
+          || this.child2.time === ''
+          || this.child2.state === ''
+          || this.child2.company === ''
+        ){
+          this.$Notice.error({
+            title: '有部分信息未填写!'
+          })
+        } else {
+          this.child2.modal = false
+        }
+      },
+      checkChild3 () {
+        if (this.child3.name === ''
+          || this.child3.number === ''
+          || this.child3.time === ''
+          || this.child3.state === ''
+          || this.child3.company === ''
+        ){
+          this.$Notice.error({
+            title: '有部分信息未填写!'
+          })
+        } else {
+          this.child3.modal = false
+        }
+      },
+      checkChild4 () {
+        if (this.child4.name === ''
+          || this.child4.number === ''
+          || this.child4.time === ''
+          || this.child4.state === ''
+          || this.child4.company === ''
+        ){
+          this.$Notice.error({
+            title: '有部分信息未填写!'
+          })
+        } else {
+          this.child4.modal = false
+        }
+      },
+      checkChild5 () {
+        if (this.child5.name === ''
+          || this.child5.number === ''
+          || this.child5.time === ''
+          || this.child5.state === ''
+          || this.child5.company === ''
+        ){
+          this.$Notice.error({
+            title: '有部分信息未填写!'
+          })
+        } else {
+          this.child5.modal = false
+        }
+      },
       resetPerson () {
         this.person.name = ''
         this.person.number = ''
@@ -629,6 +746,10 @@
         this.person.job = '1'
         this.person.state = '1'
         this.person.remark = ''
+        this.person.childNum = 0
+        this.person.disability = ''
+        this.person.security = ''
+        this.person.remainMonth = 36
         this.resetSpouse()
         this.resetChild1()
         this.resetChild2()

@@ -3,10 +3,6 @@
     <Menu mode="horizontal" theme="dark" active-name="1">
       <div class="layout-logo"></div>
       <div class="layout-nav">
-        <Menu-item name="1">
-          <Icon type="ios-navigate"></Icon>
-          列表
-        </Menu-item>
         <Menu-item name="3">
           <Icon type="ios-analytics"></Icon>
           退出
