@@ -60,4 +60,9 @@ public class PersonController extends Controller {
         String count = Db.queryLong("SELECT COUNT(*) " + getSQL(getPara("queryName"),getPara("queryNumber"),getPara("queryCategory"))).toString();
         renderText(count);
     }
+
+    @Before(Ajax.class)
+    public void save(){
+        System.out.println(getPara("person[name]"));
+    }
 }
