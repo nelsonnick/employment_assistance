@@ -33,13 +33,13 @@
           </Radio-group>
         </Form-item>
         <Form-item label="家庭成员" required>
-          <Button shape="circle" type="info"  @click="person.modal = true">{{person.name === '' ? '申请人' : person.name}}</Button>
-          <Button shape="circle" type="success" v-if="person.type === '1' && person.state === '2'" @click="spouse.modal = true">{{spouse.name === '' ? '配偶' : spouse.name}}</Button>
-          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="child1.modal = true">{{child1.name === '' ? '子女1' : child1.name}}</Button>
-          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="child2.modal = true">{{child2.name === '' ? '子女2' : child2.name}}</Button>
-          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="child3.modal = true">{{child3.name === '' ? '子女3' : child3.name}}</Button>
-          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 4 || person.childNum == 5)" @click="child4.modal = true">{{child4.name === '' ? '子女4' : child4.name}}</Button>
-          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.childNum == 5" @click="child5.modal = true">{{child5.name === '' ? '子女5' : child5.name}}</Button>
+          <Button shape="circle" type="info"  @click="openPerson">{{person.name === '' ? '申请人' : person.name}}</Button>
+          <Button shape="circle" type="success" v-if="person.type === '1' && person.state === '2'" @click="openSpouse">{{spouse.name === '' ? '配偶' : spouse.name}}</Button>
+          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 1 || person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="openChild1">{{child1.name === '' ? '子女1' : child1.name}}</Button>
+          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 2 || person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="openChild2">{{child2.name === '' ? '子女2' : child2.name}}</Button>
+          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 3 || person.childNum == 4 || person.childNum == 5)" @click="openChild3">{{child3.name === '' ? '子女3' : child3.name}}</Button>
+          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && (person.childNum == 4 || person.childNum == 5)" @click="openChild4">{{child4.name === '' ? '子女4' : child4.name}}</Button>
+          <Button shape="circle" type="warning" v-if="(person.type === '1' || person.type === '2' || person.type === '8') && person.childNum == 5" @click="openChild5">{{child5.name === '' ? '子女5' : child5.name}}</Button>
         </Form-item>
         <Form-item label="留存材料" required>
           <Tag color="blue">{{person.name === '' ? '本人' : person.name}}-身份证复印件一份</Tag>
@@ -143,7 +143,7 @@
         </Form-item>
         <Form-item>
           <Button type="error" @click="gorReply">返回列表</Button>
-          <Button type="info" @click="resetPerson">重置信息</Button>
+          <Button type="info" @click="goReset">重置信息</Button>
           <Button type="success" @click="goSave">确认新增</Button>
         </Form-item>
       </Form>
@@ -152,59 +152,59 @@
       2017 &copy; WangYiXin
     </div>
     <Modal v-model="person.modal" title="申请人的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700" :scrollable="true">
-      <Form :model="person" :rules="person_validate" :label-width="100">
+      <Form :model="persons" :rules="person_validate" :label-width="100">
         <Row>
           <Col span="12">
           <Form-item label="姓名" prop="name">
-            <Input v-model="person.name" :placeholder="person.name === '' ? '请输入申请人的姓名' : '请输入' + person.name + '的姓名'"></Input>
+            <Input v-model="persons.name" :placeholder="persons.name === '' ? '请输入申请人的姓名' : '请输入' + persons.name + '的姓名'"></Input>
           </Form-item>
           </Col>
           <Col span="12">
           <Form-item label="证件号码" prop="number">
-            <Input v-model="person.number" :placeholder="person.name === '' ? '请输入申请人的证件号码' : '请输入' + person.name + '的证件号码'"></Input>
+            <Input v-model="persons.number" :placeholder="persons.name === '' ? '请输入申请人的证件号码' : '请输入' + persons.name + '的证件号码'"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="12">
           <Form-item label="联系电话" prop="phone">
-            <Input v-model="person.phone" :placeholder="person.name === '' ? '请输入申请人的联系电话' : '请输入' + person.name + '的联系电话'"></Input>
+            <Input v-model="persons.phone" :placeholder="persons.name === '' ? '请输入申请人的联系电话' : '请输入' + persons.name + '的联系电话'"></Input>
           </Form-item>
           </Col>
           <Col span="12">
           <Form-item label="联系地址" prop="address">
-            <Input v-model="person.address" :placeholder="person.name === '' ? '请输入申请人的联系地址' : '请输入' + person.name + '的联系地址'"></Input>
+            <Input v-model="persons.address" :placeholder="persons.name === '' ? '请输入申请人的联系地址' : '请输入' + persons.name + '的联系地址'"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="12">
           <Form-item label="原工作单位" prop="company">
-            <Input v-model="person.company" :placeholder="person.name === '' ? '请输入申请人的失业前所在单位' : '请输入' + person.name + '的失业前所在单位'"></Input>
+            <Input v-model="persons.company" :placeholder="persons.name === '' ? '请输入申请人的失业前所在单位' : '请输入' + persons.name + '的失业前所在单位'"></Input>
           </Form-item>
           </Col>
           <Col span="12">
           <Form-item label="剩余享受月数" required>
-            <Slider v-model="person.remainMonth" max="60" show-stops show-tip show-input></Slider>
+            <Slider v-model="persons.remainMonth" max="60" show-stops show-tip show-input></Slider>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="12">
           <Form-item label="失业时间" prop="timeA">
-            <Date-picker type="date" v-model="person.timeA" :placeholder="person.name === '' ? '请选择申请人的失业时间' : '请输入' + person.name + '的失业时间'"></Date-picker>
+            <Date-picker type="date" v-model="persons.timeA" :placeholder="persons.name === '' ? '请选择申请人的失业时间' : '请输入' + persons.name + '的失业时间'"></Date-picker>
           </Form-item>
           </Col>
           <Col span="12">
           <Form-item label="登记时间" prop="timeB">
-            <Date-picker type="date" v-model="person.timeB" :placeholder="person.name === '' ? '请选择申请人的城镇登记失业时间' : '请输入' + person.name + '的城镇登记失业时间'"></Date-picker>
+            <Date-picker type="date" v-model="persons.timeB" :placeholder="persons.name === '' ? '请选择申请人的城镇登记失业时间' : '请输入' + persons.name + '的城镇登记失业时间'"></Date-picker>
           </Form-item>
           </Col>
         </Row>
         <Row v-if="person.type === '1' || person.type === '2' || person.type === '8'">
           <Col span="12">
           <Form-item label="婚姻状况"  required>
-            <Radio-group v-model="state" type="button">
+            <Radio-group v-model="persons.state" type="button">
               <Radio label="1" v-if="person.type === '1' || person.type === '2' || person.type === '8'">未婚</Radio>
               <Radio label="2" v-if="person.type === '1'">已婚</Radio>
               <Radio label="3" v-if="person.type === '1' || person.type === '2' || person.type === '8'">离异</Radio>
@@ -214,14 +214,14 @@
           </Col>
           <Col span="12">
           <Form-item label="子女数量" required>
-            <Slider v-model="childNum" max="5" show-stops show-tip show-input></Slider>
+            <Slider v-model="persons.childNum" max="5" show-stops show-tip show-input></Slider>
           </Form-item>
           </Col>
         </Row>
         <Row v-if="person.category === '1'">
           <Col span="24">
           <Form-item label="从事岗位" required>
-            <Radio-group v-model="person.job" type="button">
+            <Radio-group v-model="persons.job" type="button">
               <Radio label="1">钟点工</Radio>
               <Radio label="2">早市、夜市摆摊经营</Radio>
               <Radio label="3">街道、社区组织的帮扶</Radio>
@@ -236,21 +236,21 @@
         <Row v-if="person.type === '4' || person.type === '10'">
           <Col span="24">
           <Form-item label="残疾证号" required>
-            <Input v-model="person.disability" placeholder="请享受人员残疾证号"></Input>
+            <Input v-model="persons.disability" placeholder="请享受人员残疾证号"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row v-if="person.type === '3' || person.type === '9'">
           <Col span="24">
           <Form-item label="低保证号" required>
-            <Input v-model="person.security" placeholder="请享受人员低保证号"></Input>
+            <Input v-model="persons.security" placeholder="请享受人员低保证号"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="24">
           <Form-item label="备注">
-            <Input type="textarea" :rows="3" v-model="person.remark" :placeholder="person.name === '' ? '请输本人的备注' : '请输入' + person.name + '的备注'"></Input>
+            <Input type="textarea" :rows="3" v-model="persons.remark" :placeholder="persons.name === '' ? '请输本人的备注' : '请输入' + persons.name + '的备注'"></Input>
           </Form-item>
           </Col>
         </Row>
@@ -258,43 +258,43 @@
       <div slot="footer">
         <Button type="error" @click="person.modal = false">关闭</Button>
         <Button type="info" @click="resetPerson">重置</Button>
-        <Button type="success" @click="checkPerson">保存</Button>
+        <Button type="success" @click="savePerson">保存</Button>
       </div>
     </Modal>
     <Modal v-model="spouse.modal" title="配偶的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
-      <Form :model="spouse" :rules="family_validate" :label-width="100">
+      <Form :model="spouses" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
-          <Radio-group v-model="spouse.state" type="button">
+          <Radio-group v-model="spouses.state" type="button">
             <Radio label="6">未退休</Radio>
             <Radio label="7">已退休</Radio>
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
-          <Input v-model="spouse.name" :placeholder="spouse.name === '' ? '请输入配偶的姓名' : '请输入' + spouse.name + '的姓名'"></Input>
+          <Input v-model="spouses.name" :placeholder="spouses.name === '' ? '请输入配偶的姓名' : '请输入' + spouses.name + '的姓名'"></Input>
         </Form-item>
         <Form-item label="证件号码" prop="number">
-          <Input v-model="spouse.number" :placeholder="spouse.name === '' ? '请输入配偶的证件号码' : '请输入' + spouse.name + '的证件号码'"></Input>
+          <Input v-model="spouses.number" :placeholder="spouses.name === '' ? '请输入配偶的证件号码' : '请输入' + spouses.name + '的证件号码'"></Input>
         </Form-item>
         <Form-item label="工作单位" prop="company">
-          <Input v-model="spouse.company" :placeholder="spouse.name === '' ? '请输入配偶的原（现）工作（学习）单位' : '请输入' + spouse.name + '的原（现）工作（学习）单位'"></Input>
+          <Input v-model="spouses.company" :placeholder="spouses.name === '' ? '请输入配偶的原（现）工作（学习）单位' : '请输入' + spouses.name + '的原（现）工作（学习）单位'"></Input>
         </Form-item>
         <Form-item label="登记时间" prop="time">
-          <Date-picker type="date" v-model="spouse.time" :placeholder="spouse.name === '' ? '请选择配偶的城镇登记失业时间' : '请选择' + spouse.name + '的城镇登记失业时间'"></Date-picker>
+          <Date-picker type="date" v-model="spouses.time" :placeholder="spouses.name === '' ? '请选择配偶的城镇登记失业时间' : '请选择' + spouses.name + '的城镇登记失业时间'"></Date-picker>
         </Form-item>
         <Form-item label="备注">
-          <Input type="textarea" :rows="3" v-model="spouse.remark" :placeholder="spouse.name === '' ? '请输入配偶的备注' : '请输入' + spouse.name + '的备注'"></Input>
+          <Input type="textarea" :rows="3" v-model="spouses.remark" :placeholder="spouses.name === '' ? '请输入配偶的备注' : '请输入' + spouses.name + '的备注'"></Input>
         </Form-item>
       </Form>
       <div slot="footer">
         <Button type="error" @click="spouse.modal = false">关闭</Button>
         <Button type="info" @click="resetSpouse">重置</Button>
-        <Button type="success" @click=checkSpouse">保存</Button>
+        <Button type="success" @click=saveSpouse">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child1.modal" title="子女1的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
-      <Form :model="child1" :rules="family_validate" :label-width="100">
+      <Form :model="child1s" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
-          <Radio-group v-model="child1.state" type="button">
+          <Radio-group v-model="child1s.state" type="button">
             <Radio label="1">已婚</Radio>
             <Radio label="2">未婚</Radio>
             <Radio label="3">离异</Radio>
@@ -303,31 +303,31 @@
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
-          <Input v-model="child1.name" :placeholder="child1.name === '' ? '请输入子女1的姓名' : '请输入' + child1.name + '的姓名'"></Input>
+          <Input v-model="child1s.name" :placeholder="child1s.name === '' ? '请输入子女1的姓名' : '请输入' + child1s.name + '的姓名'"></Input>
         </Form-item>
         <Form-item label="证件号码" prop="number">
-          <Input v-model="child1.number" :placeholder="child1.name === '' ? '请输入子女1的证件号码' : '请输入' + child1.name + '的证件号码'"></Input>
+          <Input v-model="child1s.number" :placeholder="child1s.name === '' ? '请输入子女1的证件号码' : '请输入' + child1s.name + '的证件号码'"></Input>
         </Form-item>
         <Form-item label="工作单位" prop="company">
-          <Input v-model="child1.company" :placeholder="child1.name === '' ? '请输入子女1的原（现）工作（学习）单位' : '请输入' + child1.name + '的原（现）工作（学习）单位'"></Input>
+          <Input v-model="child1s.company" :placeholder="child1s.name === '' ? '请输入子女1的原（现）工作（学习）单位' : '请输入' + child1s.name + '的原（现）工作（学习）单位'"></Input>
         </Form-item>
         <Form-item label="登记时间" prop="time">
-          <Date-picker type="date" v-model="child1.time" :placeholder="child1.name === '' ? '请选择子女1的城镇登记失业时间' : '请选择' + child1.name + '的城镇登记失业时间'"></Date-picker>
+          <Date-picker type="date" v-model="child1s.time" :placeholder="child1s.name === '' ? '请选择子女1的城镇登记失业时间' : '请选择' + child1s.name + '的城镇登记失业时间'"></Date-picker>
         </Form-item>
         <Form-item label="备注">
-          <Input type="textarea" :rows="3" v-model="child1.remark" :placeholder="child1.name === '' ? '请输入子女1的备注' : '请输入' + child1.name + '的备注'"></Input>
+          <Input type="textarea" :rows="3" v-model="child1s.remark" :placeholder="child1s.name === '' ? '请输入子女1的备注' : '请输入' + child1s.name + '的备注'"></Input>
         </Form-item>
       </Form>
       <div slot="footer">
         <Button type="error" @click="child1.modal = false">关闭</Button>
         <Button type="info" @click="resetChild1">重置</Button>
-        <Button type="success" @click="checkChild1">保存</Button>
+        <Button type="success" @click="saveChild1">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child2.modal" title="子女2的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
-      <Form :model="child2" :rules="family_validate" :label-width="100">
+      <Form :model="child2s" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
-          <Radio-group v-model="child2.state" type="button">
+          <Radio-group v-model="child2s.state" type="button">
             <Radio label="1">已婚</Radio>
             <Radio label="2">未婚</Radio>
             <Radio label="3">离异</Radio>
@@ -336,31 +336,31 @@
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
-          <Input v-model="child2.name" :placeholder="child2.name === '' ? '请输入子女2的姓名' : '请输入' + child2.name + '的姓名'"></Input>
+          <Input v-model="child2s.name" :placeholder="child2s.name === '' ? '请输入子女2的姓名' : '请输入' + child2s.name + '的姓名'"></Input>
         </Form-item>
         <Form-item label="证件号码" prop="number">
-          <Input v-model="child2.number" :placeholder="child2.name === '' ? '请输入子女2的证件号码' : '请输入' + child2.name + '的证件号码'"></Input>
+          <Input v-model="child2s.number" :placeholder="child2s.name === '' ? '请输入子女2的证件号码' : '请输入' + child2s.name + '的证件号码'"></Input>
         </Form-item>
         <Form-item label="工作单位" prop="company">
-          <Input v-model="child2.company" :placeholder="child2.name === '' ? '请输入子女2的原（现）工作（学习）单位' : '请输入' + child2.name + '的原（现）工作（学习）单位'"></Input>
+          <Input v-model="child2s.company" :placeholder="child2s.name === '' ? '请输入子女2的原（现）工作（学习）单位' : '请输入' + child2s.name + '的原（现）工作（学习）单位'"></Input>
         </Form-item>
         <Form-item label="登记时间" prop="time">
-          <Date-picker type="date" v-model="child2.time" :placeholder="child2.name === '' ? '请选择子女2的城镇登记失业时间' : '请选择' + child2.name + '的城镇登记失业时间'"></Date-picker>
+          <Date-picker type="date" v-model="child2s.time" :placeholder="child2s.name === '' ? '请选择子女2的城镇登记失业时间' : '请选择' + child2s.name + '的城镇登记失业时间'"></Date-picker>
         </Form-item>
         <Form-item label="备注">
-          <Input type="textarea" :rows="3" v-model="child2.remark" :placeholder="child2.name === '' ? '请输入子女2的备注' : '请输入' + child2.name + '的备注'"></Input>
+          <Input type="textarea" :rows="3" v-model="child2s.remark" :placeholder="child2s.name === '' ? '请输入子女2的备注' : '请输入' + child2s.name + '的备注'"></Input>
         </Form-item>
       </Form>
       <div slot="footer">
         <Button type="error" @click="child2.modal = false">关闭</Button>
         <Button type="info" @click="resetChild2">重置</Button>
-        <Button type="success" @click="checkChild2">保存</Button>
+        <Button type="success" @click="saveChild2">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child3.modal" title="子女3的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
       <Form :model="child3" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
-          <Radio-group v-model="child3.state" type="button">
+          <Radio-group v-model="child3s.state" type="button">
             <Radio label="1">已婚</Radio>
             <Radio label="2">未婚</Radio>
             <Radio label="3">离异</Radio>
@@ -369,31 +369,31 @@
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
-          <Input v-model="child3.name" :placeholder="child3.name === '' ? '请输入子女3的姓名' : '请输入' + child3.name + '的姓名'"></Input>
+          <Input v-model="child3s.name" :placeholder="child3s.name === '' ? '请输入子女3的姓名' : '请输入' + child3s.name + '的姓名'"></Input>
         </Form-item>
         <Form-item label="证件号码" prop="number">
-          <Input v-model="child3.number" :placeholder="child3.name === '' ? '请输入子女3的证件号码' : '请输入' + child3.name + '的证件号码'"></Input>
+          <Input v-model="child3s.number" :placeholder="child3s.name === '' ? '请输入子女3的证件号码' : '请输入' + child3s.name + '的证件号码'"></Input>
         </Form-item>
         <Form-item label="工作单位" prop="company">
-          <Input v-model="child3.company" :placeholder="child3.name === '' ? '请输入子女3的原（现）工作（学习）单位' : '请输入' + child3.name + '的原（现）工作（学习）单位'"></Input>
+          <Input v-model="child3s.company" :placeholder="child3s.name === '' ? '请输入子女3的原（现）工作（学习）单位' : '请输入' + child3s.name + '的原（现）工作（学习）单位'"></Input>
         </Form-item>
         <Form-item label="登记时间" prop="time">
-          <Date-picker type="date" v-model="child3.time" :placeholder="child3.name === '' ? '请选择子女3的城镇登记失业时间' : '请选择' + child3.name + '的城镇登记失业时间'"></Date-picker>
+          <Date-picker type="date" v-model="child3s.time" :placeholder="child3s.name === '' ? '请选择子女3的城镇登记失业时间' : '请选择' + child3s.name + '的城镇登记失业时间'"></Date-picker>
         </Form-item>
         <Form-item label="备注">
-          <Input type="textarea" :rows="3" v-model="child3.remark" :placeholder="child3.name === '' ? '请输入子女3的备注' : '请输入' + child3.name + '的备注'"></Input>
+          <Input type="textarea" :rows="3" v-model="child3s.remark" :placeholder="child3s.name === '' ? '请输入子女3的备注' : '请输入' + child3s.name + '的备注'"></Input>
         </Form-item>
       </Form>
       <div slot="footer">
         <Button type="error" @click="child3.modal = false">关闭</Button>
         <Button type="info" @click="resetChild3">重置</Button>
-        <Button type="success" @click="checkChild3">保存</Button>
+        <Button type="success" @click="saveChild3">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child4.modal" title="子女4的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
-      <Form :model="child4" :rules="family_validate" :label-width="100">
+      <Form :model="child4s" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
-          <Radio-group v-model="child4.state" type="button">
+          <Radio-group v-model="child4s.state" type="button">
             <Radio label="1">已婚</Radio>
             <Radio label="2">未婚</Radio>
             <Radio label="3">离异</Radio>
@@ -402,31 +402,31 @@
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
-          <Input v-model="child4.name" :placeholder="child4.name === '' ? '请输入子女4的姓名' : '请输入' + child4.name + '的姓名'"></Input>
+          <Input v-model="child4s.name" :placeholder="child4s.name === '' ? '请输入子女4的姓名' : '请输入' + child4s.name + '的姓名'"></Input>
         </Form-item>
         <Form-item label="证件号码" prop="number">
-          <Input v-model="child4.number" :placeholder="child4.name === '' ? '请输入子女4的证件号码' : '请输入' + child4.name + '的证件号码'"></Input>
+          <Input v-model="child4s.number" :placeholder="child4s.name === '' ? '请输入子女4的证件号码' : '请输入' + child4s.name + '的证件号码'"></Input>
         </Form-item>
         <Form-item label="工作单位" prop="company">
-          <Input v-model="child4.company" :placeholder="child4.name === '' ? '请输入子女4的原（现）工作（学习）单位' : '请输入' + child4.name + '的原（现）工作（学习）单位'"></Input>
+          <Input v-model="child4s.company" :placeholder="child4s.name === '' ? '请输入子女4的原（现）工作（学习）单位' : '请输入' + child4s.name + '的原（现）工作（学习）单位'"></Input>
         </Form-item>
         <Form-item label="登记时间" prop="time">
-          <Date-picker type="date" v-model="child4.time" :placeholder="child4.name === '' ? '请选择子女4的城镇登记失业时间' : '请选择' + child4.name + '的城镇登记失业时间'"></Date-picker>
+          <Date-picker type="date" v-model="child4s.time" :placeholder="child4s.name === '' ? '请选择子女4的城镇登记失业时间' : '请选择' + child4s.name + '的城镇登记失业时间'"></Date-picker>
         </Form-item>
         <Form-item label="备注">
-          <Input type="textarea" :rows="3" v-model="child4.remark" :placeholder="child4.name === '' ? '请输入子女4的备注' : '请输入' + child4.name + '的备注'"></Input>
+          <Input type="textarea" :rows="3" v-model="child4s.remark" :placeholder="child4s.name === '' ? '请输入子女4的备注' : '请输入' + child4s.name + '的备注'"></Input>
         </Form-item>
       </Form>
       <div slot="footer">
         <Button type="error" @click="child4.modal = false">关闭</Button>
         <Button type="info" @click="resetChild4">重置</Button>
-        <Button type="success" @click="checkChild4">保存</Button>
+        <Button type="success" @click="saveChild4">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child5.modal" title="子女5的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
-      <Form :model="child5" :rules="family_validate" :label-width="100">
+      <Form :model="child5s" :rules="family_validate" :label-width="100">
         <Form-item label="状态" prop="state">
-          <Radio-group v-model="child5.state" type="button">
+          <Radio-group v-model="child5s.state" type="button">
             <Radio label="1">已婚</Radio>
             <Radio label="2">未婚</Radio>
             <Radio label="3">离异</Radio>
@@ -435,25 +435,25 @@
           </Radio-group>
         </Form-item>
         <Form-item label="姓名" prop="name">
-          <Input v-model="child5.name" :placeholder="child5.name === '' ? '请输入子女5的姓名' : '请输入' + child5.name + '的姓名'"></Input>
+          <Input v-model="child5s.name" :placeholder="child5s.name === '' ? '请输入子女5的姓名' : '请输入' + child5s.name + '的姓名'"></Input>
         </Form-item>
         <Form-item label="证件号码" prop="number">
-          <Input v-model="child5.number" :placeholder="child5.name === '' ? '请输入子女5的证件号码' : '请输入' + child5.name + '的证件号码'"></Input>
+          <Input v-model="child5s.number" :placeholder="child5s.name === '' ? '请输入子女5的证件号码' : '请输入' + child5s.name + '的证件号码'"></Input>
         </Form-item>
         <Form-item label="工作单位" prop="company">
-          <Input v-model="child5.company" :placeholder="child5.name === '' ? '请输入子女5的原（现）工作（学习）单位' : '请输入' + child5.name + '的原（现）工作（学习）单位'"></Input>
+          <Input v-model="child5s.company" :placeholder="child5s.name === '' ? '请输入子女5的原（现）工作（学习）单位' : '请输入' + child5s.name + '的原（现）工作（学习）单位'"></Input>
         </Form-item>
         <Form-item label="登记时间" prop="time">
-          <Date-picker type="date" v-model="child5.time" :placeholder="child5.name === '' ? '请选择子女5的城镇登记失业时间' : '请选择' + child5.name + '的城镇登记失业时间'"></Date-picker>
+          <Date-picker type="date" v-model="child5s.time" :placeholder="child5s.name === '' ? '请选择子女5的城镇登记失业时间' : '请选择' + child5s.name + '的城镇登记失业时间'"></Date-picker>
         </Form-item>
         <Form-item label="备注">
-          <Input type="textarea" :rows="3" v-model="child5.remark" :placeholder="child5.name === '' ? '请输入子女5的备注' : '请输入' + child5.name + '的备注'"></Input>
+          <Input type="textarea" :rows="3" v-model="child5s.remark" :placeholder="child5s.name === '' ? '请输入子女5的备注' : '请输入' + child5s.name + '的备注'"></Input>
         </Form-item>
       </Form>
       <div slot="footer">
         <Button type="error" @click="child5.modal = false">关闭</Button>
         <Button type="info" @click="resetChild5">重置</Button>
-        <Button type="success" @click="checkChild5">保存</Button>
+        <Button type="success" @click="saveChild5">保存</Button>
       </div>
     </Modal>
   </div>
@@ -530,8 +530,8 @@
             { required: true, message: '请选择状态', trigger: 'change' }
           ]
         },
-        childNum: 0,
         state: '',
+        childNum: 0,
         person: {
           category: '1',
           type: '1',
@@ -604,14 +604,78 @@
           company: '',
           time: '',
           remark: ''
+        },
+        persons: {
+          state: '',
+          name: '',
+          number: '',
+          phone: '',
+          address: '',
+          company: '',
+          timeA: '',
+          timeB: '',
+          job: '',
+          disability: '',
+          security: '',
+          remark: '',
+          childNum: 0,
+          remainMonth: 36
+        },
+        child1s: {
+          state: '',
+          name: '',
+          number: '',
+          company: '',
+          time: '',
+          remark: ''
+        },
+        child2s: {
+          state: '',
+          name: '',
+          number: '',
+          company: '',
+          time: '',
+          remark: ''
+        },
+        child3s: {
+          state: '',
+          name: '',
+          number: '',
+          company: '',
+          time: '',
+          remark: ''
+        },
+        child4s: {
+          state: '',
+          name: '',
+          number: '',
+          company: '',
+          time: '',
+          remark: ''
+        },
+        child5s: {
+          state: '',
+          name: '',
+          number: '',
+          company: '',
+          time: '',
+          remark: ''
+        },
+        spouses: {
+          state: '',
+          name: '',
+          number: '',
+          company: '',
+          time: '',
+          remark: ''
         }
       }
     },
     watch: {
-      person.state: function (val) {
+      state: function (val) {
         this.resetSpouse()
       },
-      person.childMun: function (val) {
+      childMun: function (val) {
         this.resetChild1()
         this.resetChild2()
         this.resetChild3()
@@ -623,153 +687,181 @@
       gorReply () {
         this.$router.push({ path: '/list' })
       },
-      checkPerson () {
-        if (this.person.name === ''
-          || this.person.number === ''
-          || this.person.phone === ''
-          || this.person.address === ''
-          || this.person.company === ''
-          || this.person.timeA === ''
-          || this.person.timeB === ''
-          || this.person.job === ''
-          || this.person.state === ''
-          || (this.person.type === '4' && this.person.disability === '')
-          || (this.person.type === '10' && this.person.disability === '')
-          || (this.person.type === '3' && this.person.security === '')
-          || (this.person.type === '9' && this.person.security === '')
-          || (this.person.type === '1' && this.person.state === '')
-          || (this.person.type === '1' && this.person.job === '')
-          || (this.person.type === '2' && this.person.state === '')
-          || (this.person.type === '2' && this.person.job === '')
-          || (this.person.type === '3' && this.person.state !== '')
-          || (this.person.type === '3' && this.person.job === '')
-          || (this.person.type === '4' && this.person.state !== '')
-          || (this.person.type === '4' && this.person.job === '')
-          || (this.person.type === '5' && this.person.state !== '')
-          || (this.person.type === '5' && this.person.job === '')
-          || (this.person.type === '6' && this.person.state !== '')
-          || (this.person.type === '6' && this.person.job === '')
-          || (this.person.type === '7' && this.person.state !== '')
-          || (this.person.type === '7' && this.person.job !== '')
-          || (this.person.type === '8' && this.person.state === '')
-          || (this.person.type === '8' && this.person.job === '')
-          || (this.person.type === '9' && this.person.state !== '')
-          || (this.person.type === '9' && this.person.job !== '')
-          || (this.person.type === '10' && this.person.state !== '')
-          || (this.person.type === '10' && this.person.job !== '')
-        ){
+      savePerson () {
+        if (this.persons.name === '' ||
+          this.persons.number === '' ||
+          this.persons.phone === '' ||
+          this.persons.address === '' ||
+          this.persons.company === '' ||
+          this.persons.timeA === '' ||
+          this.persons.timeB === '' ||
+          this.persons.job === '' ||
+          this.persons.state === '' ||
+          (this.person.type === '4' && this.persons.disability === '') ||
+          (this.person.type === '10' && this.persons.disability === '') ||
+          (this.person.type === '3' && this.persons.security === '') ||
+          (this.person.type === '9' && this.persons.security === '') ||
+          (this.person.type === '1' && this.persons.state === '') ||
+          (this.person.type === '1' && this.persons.job === '') ||
+          (this.person.type === '2' && this.persons.state === '') ||
+          (this.person.type === '2' && this.persons.job === '') ||
+          (this.person.type === '3' && this.persons.state !== '') ||
+          (this.person.type === '3' && this.persons.job === '') ||
+          (this.person.type === '4' && this.persons.state !== '') ||
+          (this.person.type === '4' && this.persons.job === '') ||
+          (this.person.type === '5' && this.persons.state !== '') ||
+          (this.person.type === '5' && this.persons.job === '') ||
+          (this.person.type === '6' && this.persons.state !== '') ||
+          (this.person.type === '6' && this.persons.job === '') ||
+          (this.person.type === '7' && this.persons.state !== '') ||
+          (this.person.type === '7' && this.persons.job !== '') ||
+          (this.person.type === '8' && this.persons.state === '') ||
+          (this.person.type === '8' && this.persons.job === '') ||
+          (this.person.type === '9' && this.persons.state !== '') ||
+          (this.person.type === '9' && this.persons.job !== '') ||
+          (this.person.type === '10' && this.persons.state !== '') ||
+          (this.person.type === '10' && this.persons.job !== '')
+        ) {
           this.$Notice.error({
             title: '有部分信息未填写!'
           })
         } else {
-          if (this.person.childNum.toString() !== this.childNum.toString()){
-            this.person.childNum = this.childNum
-          }
-          if (this.person.state.toString() !== this.state.toString()){
-            this.person.state = this.state
-          }
+          this.person.name = this.persons.name
+          this.person.number = this.persons.number
+          this.person.phone = this.persons.phone
+          this.person.address = this.persons.address
+          this.person.company = this.persons.company
+          this.person.timeA = this.persons.timeA
+          this.person.timeB = this.persons.timeB
+          this.person.job = this.persons.job
+          this.person.disability = this.persons.disability
+          this.person.security = this.persons.security
+          this.person.remark = this.persons.remark
+          this.person.state = this.persons.state
+          this.person.childNum = this.persons.childNum
+          this.state = this.persons.state
+          this.childNum = this.persons.childNum
           this.person.modal = false
         }
       },
-      checkSpouse () {
-        if (this.spouse.name === ''
-          || this.spouse.number === ''
-          || this.spouse.time === ''
-          || this.spouse.state === ''
-          || this.spouse.company === ''
-        ){
+      saveSpouse () {
+        if (this.spouses.name === '' ||
+          this.spouses.number === '' ||
+          this.spouses.time === '' ||
+          this.spouses.state === '' ||
+          this.spouses.company === ''
+        ) {
           this.$Notice.error({
             title: '有部分信息未填写!'
           })
         } else {
+          this.spouse.name = this.spouses.name
+          this.spouse.number = this.spouses.number
+          this.spouse.time = this.spouses.time
+          this.spouse.state = this.spouses.state
+          this.spouse.company = this.spouses.company
           this.spouse.modal = false
         }
       },
-      checkChild1 () {
-        if (this.child1.name === ''
-          || this.child1.number === ''
-          || this.child1.time === ''
-          || this.child1.state === ''
-          || this.child1.company === ''
-        ){
+      saveChild1 () {
+        if (this.child1.name === '' ||
+          this.child1.number === '' ||
+          this.child1.time === '' ||
+          this.child1.state === '' ||
+          this.child1.company === ''
+        ) {
           this.$Notice.error({
             title: '有部分信息未填写!'
           })
         } else {
+          this.child1.name = this.child1s.name
+          this.child1.number = this.child1s.number
+          this.child1.time = this.child1s.time
+          this.child1.state = this.child1s.state
+          this.child1.company = this.child1s.company
           this.child1.modal = false
         }
       },
-      checkChild2 () {
-        if (this.child2.name === ''
-          || this.child2.number === ''
-          || this.child2.time === ''
-          || this.child2.state === ''
-          || this.child2.company === ''
-        ){
+      saveChild2 () {
+        if (this.child2.name === '' ||
+          this.child2.number === '' ||
+          this.child2.time === '' ||
+          this.child2.state === '' ||
+          this.child2.company === ''
+        ) {
           this.$Notice.error({
             title: '有部分信息未填写!'
           })
         } else {
+          this.child2.name = this.child2s.name
+          this.child2.number = this.child2s.number
+          this.child2.time = this.child2s.time
+          this.child2.state = this.child2s.state
+          this.child2.company = this.child2s.company
           this.child2.modal = false
         }
       },
-      checkChild3 () {
-        if (this.child3.name === ''
-          || this.child3.number === ''
-          || this.child3.time === ''
-          || this.child3.state === ''
-          || this.child3.company === ''
-        ){
+      saveChild3 () {
+        if (this.child3.name === '' ||
+          this.child3.number === '' ||
+          this.child3.time === '' ||
+          this.child3.state === '' ||
+          this.child3.company === ''
+        ) {
           this.$Notice.error({
             title: '有部分信息未填写!'
           })
         } else {
+          this.child3.name = this.child3s.name
+          this.child3.number = this.child3s.number
+          this.child3.time = this.child3s.time
+          this.child3.state = this.child3s.state
+          this.child3.company = this.child3s.company
           this.child3.modal = false
         }
       },
-      checkChild4 () {
-        if (this.child4.name === ''
-          || this.child4.number === ''
-          || this.child4.time === ''
-          || this.child4.state === ''
-          || this.child4.company === ''
-        ){
+      saveChild4 () {
+        if (this.child4.name === '' ||
+          this.child4.number === '' ||
+          this.child4.time === '' ||
+          this.child4.state === '' ||
+          this.child4.company === ''
+        ) {
           this.$Notice.error({
             title: '有部分信息未填写!'
           })
         } else {
+          this.child4.name = this.child4s.name
+          this.child4.number = this.child4s.number
+          this.child4.time = this.child4s.time
+          this.child4.state = this.child4s.state
+          this.child4.company = this.child4s.company
           this.child4.modal = false
         }
       },
-      checkChild5 () {
-        if (this.child5.name === ''
-          || this.child5.number === ''
-          || this.child5.time === ''
-          || this.child5.state === ''
-          || this.child5.company === ''
-        ){
+      saveChild5 () {
+        if (this.child5.name === '' ||
+          this.child5.number === '' ||
+          this.child5.time === '' ||
+          this.child5.state === '' ||
+          this.child5.company === ''
+        ) {
           this.$Notice.error({
             title: '有部分信息未填写!'
           })
         } else {
+          this.child5.name = this.child5s.name
+          this.child5.number = this.child5s.number
+          this.child5.time = this.child5s.time
+          this.child5.state = this.child5s.state
+          this.child5.company = this.child5s.company
           this.child5.modal = false
         }
       },
-      resetPerson () {
-        this.person.name = ''
-        this.person.number = ''
-        this.person.phone = ''
-        this.person.address = ''
-        this.person.company = ''
-        this.person.timeA = ''
-        this.person.timeB = ''
-        this.person.job = '1'
-        this.person.state = '1'
-        this.person.remark = ''
-        this.person.childNum = 0
-        this.person.disability = ''
-        this.person.security = ''
-        this.person.remainMonth = 36
+      goReset () {
+        this.person.category = '1'
+        this.person.type = '1'
+        this.resetPerson()
         this.resetSpouse()
         this.resetChild1()
         this.resetChild2()
@@ -777,60 +869,133 @@
         this.resetChild4()
         this.resetChild5()
       },
+      resetPerson () {
+        this.persons.name = ''
+        this.persons.number = ''
+        this.persons.phone = ''
+        this.persons.address = ''
+        this.persons.company = ''
+        this.persons.timeA = ''
+        this.persons.timeB = ''
+        this.persons.job = '1'
+        this.persons.state = '1'
+        this.persons.remark = ''
+        this.persons.childNum = 0
+        this.persons.disability = ''
+        this.persons.security = ''
+        this.persons.remainMonth = 36
+      },
       resetSpouse () {
-        this.spouse.state = ''
-        this.spouse.name = ''
-        this.spouse.number = ''
-        this.spouse.company = ''
-        this.spouse.time = ''
-        this.spouse.remark = ''
+        this.spouses.state = ''
+        this.spouses.name = ''
+        this.spouses.number = ''
+        this.spouses.company = ''
+        this.spouses.time = ''
+        this.spouses.remark = ''
       },
       resetChild1 () {
-        this.child1.state = ''
-        this.child1.name = ''
-        this.child1.number = ''
-        this.child1.company = ''
-        this.child1.time = ''
-        this.child1.remark = ''
+        this.child1s.state = ''
+        this.child1s.name = ''
+        this.child1s.number = ''
+        this.child1s.company = ''
+        this.child1s.time = ''
+        this.child1s.remark = ''
       },
       resetChild2 () {
-        this.child2.state = ''
-        this.child2.name = ''
-        this.child2.number = ''
-        this.child2.company = ''
-        this.child2.time = ''
-        this.child2.remark = ''
+        this.child2s.state = ''
+        this.child2s.name = ''
+        this.child2s.number = ''
+        this.child2s.company = ''
+        this.child2s.time = ''
+        this.child2s.remark = ''
       },
       resetChild3 () {
-        this.child3.state = ''
-        this.child3.name = ''
-        this.child3.number = ''
-        this.child3.company = ''
-        this.child3.time = ''
-        this.child3.remark = ''
+        this.child3s.state = ''
+        this.child3s.name = ''
+        this.child3s.number = ''
+        this.child3s.company = ''
+        this.child3s.time = ''
+        this.child3s.remark = ''
       },
       resetChild4 () {
-        this.child4.state = ''
-        this.child4.name = ''
-        this.child4.number = ''
-        this.child4.company = ''
-        this.child4.time = ''
-        this.child4.remark = ''
+        this.child4s.state = ''
+        this.child4s.name = ''
+        this.child4s.number = ''
+        this.child4s.company = ''
+        this.child4s.time = ''
+        this.child4s.remark = ''
       },
       resetChild5 () {
-        this.child5.state = ''
-        this.child5.name = ''
-        this.child5.number = ''
-        this.child5.company = ''
-        this.child5.time = ''
-        this.child5.remark = ''
+        this.child5s.state = ''
+        this.child5s.name = ''
+        this.child5s.number = ''
+        this.child5s.company = ''
+        this.child5s.time = ''
+        this.child5s.remark = ''
       },
-      childNumChange () {
-        this.resetChild1()
-        this.resetChild2()
-        this.resetChild3()
-        this.resetChild4()
-        this.resetChild5()
+      openPerson () {
+        this.persons.name = this.person.name
+        this.persons.number = this.person.number
+        this.persons.phone = this.person.phone
+        this.persons.address = this.person.address
+        this.persons.company = this.person.company
+        this.persons.timeA = this.person.timeA
+        this.persons.timeB = this.person.timeB
+        this.persons.job = this.person.job
+        this.persons.disability = this.person.disability
+        this.persons.security = this.person.security
+        this.persons.remark = this.person.remark
+        this.persons.state = this.person.state
+        this.persons.childNum = this.person.childNum
+        this.person.modal = true
+      },
+      openSpouse () {
+        this.spouses.name = this.spouse.name
+        this.spouses.number = this.spouse.number
+        this.spouses.time = this.spouse.time
+        this.spouses.state = this.spouse.state
+        this.spouses.company = this.spouse.company
+        this.spouse.modal = true
+      },
+      openChild1 () {
+        this.child1s.name = this.child1.name
+        this.child1s.number = this.child1.number
+        this.child1s.time = this.child1.time
+        this.child1s.state = this.child1.state
+        this.child1s.company = this.child1.company
+        this.child1.modal = true
+      },
+      openChild2 () {
+        this.child2s.name = this.child2.name
+        this.child2s.number = this.child2.number
+        this.child2s.time = this.child2.time
+        this.child2s.state = this.child2.state
+        this.child2s.company = this.child2.company
+        this.child2.modal = true
+      },
+      openChild3 () {
+        this.child3s.name = this.child3.name
+        this.child3s.number = this.child3.number
+        this.child3s.time = this.child3.time
+        this.child3s.state = this.child3.state
+        this.child3s.company = this.child3.company
+        this.child3.modal = true
+      },
+      openChild4 () {
+        this.child4s.name = this.child4.name
+        this.child4s.number = this.child4.number
+        this.child4s.time = this.child4.time
+        this.child4s.state = this.child4.state
+        this.child4s.company = this.child4.company
+        this.child4.modal = true
+      },
+      openChild5 () {
+        this.child5s.name = this.child5.name
+        this.child5s.number = this.child5.number
+        this.child5s.time = this.child5.time
+        this.child5s.state = this.child5.state
+        this.child5s.company = this.child5.company
+        this.child5.modal = true
       },
       goSave () {
         this.$http.get(
