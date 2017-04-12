@@ -47,7 +47,7 @@
       <br>
       <Row type="flex" justify="end">
         <Col>
-          <Page :total="pageTotal" :current="pageCurrent" show-sizer show-elevator show-total :page-size="pageCurrent" :on-page-size-change="sizeChange()" on-change="pageChange()"></Page>
+          <Page :total="pageTotal" :current="pageCurrent" show-sizer show-elevator show-total :page-size="pageSize" :on-page-size-change="sizeChange()" on-change="pageChange()"></Page>
         </Col>
       </Row>
     </div>
@@ -89,9 +89,7 @@
             key: 'action',
             align: 'center',
             render (row, column, index) {
-              return `<i-button type="primary" size="small" @click="goEdit(${index})">修改</i-button>
-                <i-button type="error" size="small" @click="goDelete(${row})">删除</i-button>
-                <i-button type="success" size="small" @click="goDelete(${column})">打印</i-button>`
+              return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`
             }
           }
         ],
@@ -216,7 +214,7 @@
         padding: 10px 15px 0;
     }
     .layout-content{
-        min-height: 200px;
+        min-height: 300px;
         margin: 15px;
         overflow: hidden;
         background: #fff;

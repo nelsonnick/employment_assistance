@@ -288,7 +288,7 @@
       <div slot="footer">
         <Button type="error" @click="spouse.modal = false">关闭</Button>
         <Button type="info" @click="resetSpouse">重置</Button>
-        <Button type="success" @click=saveSpouse">保存</Button>
+        <Button type="success" @click="saveSpouse">保存</Button>
       </div>
     </Modal>
     <Modal v-model="child1.modal" title="子女1的信息" :styles="{top: '20px'}" :closable="false" :mask-closable="false" :width="700">
@@ -998,6 +998,30 @@
         this.child5.modal = true
       },
       goSave () {
+        if (this.persons.timeA.toString() !== '') {
+          this.person.timeA = this.persons.timeA.getTime().toString()
+        }
+        if (this.persons.timeB.toString() !== '') {
+          this.person.timeB = this.persons.timeB.getTime().toString()
+        }
+        if (this.child1s.time.toString() !== '') {
+          this.child1.time = this.child1s.time.getTime().toString()
+        }
+        if (this.child2s.time.toString() !== '') {
+          this.child2.time = this.child2s.time.getTime().toString()
+        }
+        if (this.child3s.time.toString() !== '') {
+          this.child3.time = this.child3s.time.getTime().toString()
+        }
+        if (this.child4s.time.toString() !== '') {
+          this.child4.time = this.child4s.time.getTime().toString()
+        }
+        if (this.child5s.time.toString() !== '') {
+          this.child5.time = this.child5s.time.getTime().toString()
+        }
+        if (this.spouses.time.toString() !== '') {
+          this.spouse.time = this.spouses.time.getTime().toString()
+        }
         this.$http.get(
           API.save,
           { params: {
