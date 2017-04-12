@@ -877,8 +877,8 @@
         this.persons.company = ''
         this.persons.timeA = ''
         this.persons.timeB = ''
-        this.persons.job = '1'
-        this.persons.state = '1'
+        this.persons.job = ''
+        this.persons.state = ''
         this.persons.remark = ''
         this.persons.childNum = 0
         this.persons.disability = ''
